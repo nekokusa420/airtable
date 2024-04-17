@@ -9,12 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/core": "4.2.8",
+    "@mantine/hooks": "4.2.8",
+    "@mantine/notifications": "4.2.8",
+    "@mantine/form": "4.2.8",
     "next": "14.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "eslint": "9.0.0",
-    "eslint-config-next": "14.2.1"
+    "eslint": "8.17.0",
+    "eslint-config-next": "12.1.6"
   }
 }
