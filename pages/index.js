@@ -16,26 +16,48 @@ export default function Home() {
       email: "",
       message: "",
     },
-    validate: (values) => {
-      const errors = {};
-      if (!/^\S+@\S+$/.test(values.email)) {
-        errors.email = "Invalid email";
-      }
-      return errors;
+    validate: {
+      email: (value) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(value) ? null : "Invalid email";
+      },
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // showNotification here
+  const handleSubmit = async (values) => {
+    const request = await fetch("/api/submit", {
+      method: "POST",
+      body: JSON.stringify(values),
+    });
+
+    const result = await request.json();
+
+    if (result.data !== "ok") {
+      showNotification({
+        title: "Error submitting form",
+        color: "red",
+        message: "Please try again later",
+      });
+      return;
+    }
+    showNotification({
+      title: "Form submitted",
+      color: "green",
+      message: "We will contact you soon",
+    });
+    submitForm.setvalues({
+      name: "",
+      email: "",
+      message: "",
+    });
   };
 
   return (
     <Container size={200} px={0} mt="xl">
       <Box mt="xl">
-        <form onSubmit={console.log("values")}>
+        <form onSubmit={submitForm.onSubmit((values) => handleSubmit(values))}>
           <TextInput
-            requireed
+            required
             label="Email"
             placeholder="Enter your email"
             {...submitForm.getInputProps("email")}
