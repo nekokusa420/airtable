@@ -1,20 +1,14 @@
-//submit.js
+export default async function updateHandler(req, res) {
+  const { id, name, email, message } = JSON.parse(req.body);
 
-export default async function handler(req, res) {
-  const { name, email, message } = JSON.parse(req.body);
-
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: "Missing name, email, or message" });
-  }
-
-  if (req.method !== "POST") {
+  if (req.method !== "PATCH") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   const request = await fetch(
-    "https://api.airtable.com/v0/app7EnI3b3BrVRDBI/tblcC0OxDa0YRpjKM/",
+    `https://api.airtable.com/v0/app7EnI3b3BrVRDBI/tblcC0OxDa0YRpjKM/${id}`,
     {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${(process.env.AIRTABLE_API_KEY =
